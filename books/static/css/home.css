@@ -1,0 +1,226 @@
+body {
+    margin: 0;
+    background: 
+        linear-gradient(135deg, rgba(245, 247, 250, 0.9) 0%, rgba(195, 207, 226, 0.9) 100%),
+        url('../images/background.png') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page-container {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Enhanced Animated Books */
+.animated-library {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: -1; 
+    bottom: 10%;
+} 
+
+.library-shelf {
+    position: absolute;
+    width: 80%;
+    height: 25px;
+    background: #5D4037;
+    bottom: 0;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 
+        0 10px 20px rgba(0,0,0,0.3),
+        inset 0 -5px 10px rgba(0,0,0,0.2);
+}
+
+.book {
+    position: absolute;
+    height: 160px;
+    width: 50px;
+    bottom: 25px;
+    transform-origin: bottom center;
+    animation: float 5s infinite ease-in-out;
+    border-radius: 3px;
+    box-shadow: 
+        0 4px 8px rgba(0,0,0,0.3),
+        inset 0 -3px 5px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 10px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+}
+
+/* Book spines with titles */
+.book::after {
+    content: attr(data-title);
+    position: absolute;
+    transform: rotate(90deg) translateX(20px);
+    transform-origin: left center;
+    white-space: nowrap;
+    width: 160px;
+    text-align: left;
+}
+
+.book-1 {
+    left: 30%;
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    animation-delay: 0s;
+    data-title: "Fiction";
+}
+
+.book-2 {
+    left: 45%;
+    background: linear-gradient(145deg, #2ecc71, #27ae60);
+    animation-delay: 1s;
+    data-title: "Science";
+}
+
+.book-3 {
+    left: 60%;
+    background: linear-gradient(145deg, #f39c12, #e67e22);
+    animation-delay: 1.5s;
+    data-title: "History";
+}
+
+.book-4 {
+    left: 15%;
+    background: linear-gradient(145deg, #9b59b6, #8e44ad);
+    animation-delay: 0.5s;
+    data-title: "Art";
+}
+
+.book-5 {
+    left: 75%;
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    animation-delay: 2s;
+    data-title: "Travel";
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(-3deg);
+    }
+    50% {
+        transform: translateY(-25px) rotate(3deg);
+    }
+}
+
+/* Make books pulse on hover */
+.book:hover {
+    animation: float 2s infinite ease-in-out, pulse 1.5s infinite;
+    /* z-index: 2; */
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 
+            0 4px 15px rgba(0,0,0,0.4),
+            inset 0 -3px 5px rgba(0,0,0,0.2);
+    }
+    50% {
+        box-shadow: 
+            0 4px 25px rgba(0,0,0,0.6),
+            inset 0 -3px 5px rgba(0,0,0,0.2);
+    }
+}
+
+
+
+/* Rest of your existing login card styles remain the same */
+  /* Login Card Styles */
+  .centered-login {
+    position: relative;
+    /* z-index: 1; */
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .login-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .login-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-header {
+    background: #8B4513;
+    padding: 30px;
+    text-align: center;
+  }
+  
+  .card-header .logo {
+    height: 60px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  }
+  
+  .login-form {
+    padding: 30px;
+  }
+  
+  .login-form h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #7f8c8d;
+    font-weight: 500;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+    margin-right: 10px;
+  }
+  
+  .form-group input:focus {
+    border-color: #8B4513;
+    outline: none;
+  }
+  
+  .login-btn {
+    width: 100%;
+    padding: 14px;
+    background: #8B4513;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .login-btn:hover {
+    background: #A0522D;
+  }

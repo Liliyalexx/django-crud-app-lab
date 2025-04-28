@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/form.css' %}" />
+{% endblock %}
+{% block content %}
+<div class="book-form-container">
+  <div class="book-form-card">
+    <div class="card-header">
+      <h2>Add Your New Book</h2>
+    </div>
+    
+    <form method="post" enctype="multipart/form-data" class="book-form">
+      {% csrf_token %}
+      
+      <div class="form-fields">
+        <!-- Regular form fields -->
+        {{ form.as_p }}
+        
+        <!-- Custom image upload -->
+        <div class="image-upload">
+          <label for="id_image">Book Cover:</label>
+          {% if form.instance.image %}
+            <div class="current-image">
+              <img src="{{ form.instance.image.url }}" alt="Current book cover">
+              <span>{{ form.instance.image.name }}</span>
+            </div>
+          {% endif %}
+          <input type="file" name="image" accept="image/*" id="id_image">
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn submit">Save Book</button>
+        <a href="{% url 'book_list' %}" class="btn cancel">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

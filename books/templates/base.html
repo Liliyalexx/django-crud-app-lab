@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Book Collector</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/bookslogo.svg' %}" />
+  <!-- Base CSS first -->
+  <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+  <!-- Then page-specific CSS -->
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <nav>
+    <img src="{% static 'images/bookslogo.svg' %}" alt="Book Collector Logo">
+    <div>
+        <a href="{% url 'home' %}">Home</a> |
+        {% if user.is_authenticated %}
+            <a href="{% url 'book_list' %}">Books</a> |
+            <a href="{% url 'book_create' %}">Create Book</a> |
+            <form method="post" action="{% url 'logout' %}" class="nav-form">
+                {% csrf_token %}
+                <button type="submit" class="nav-button">Log out</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a> |
+            <a href="{% url 'signup' %}">Signup</a>
+        {% endif %}
+    </div>
+</nav>
+  <hr>
+  {% block content %}{% endblock %}
+</body>
+</html>

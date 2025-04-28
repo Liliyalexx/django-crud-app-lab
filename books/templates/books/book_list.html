@@ -1,0 +1,143 @@
+{% extends "base.html" %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'css/books/book-list.css' %}" />
+{% endblock %} {% block content %}
+
+<div class="book-container">
+  <h1 class="book-title-main">Book Collection</h1>
+
+  <div class="book-grid">
+    {% for book in object_list %}
+    <div class="book-card">
+      <div class="book-img">
+        {% if book.image %}
+        <img
+          src="{{ book.image.url }}"
+          alt="{{ book.title }}"
+          class="usr-img"
+        />
+        {% else %}
+        <img
+          src="{% static 'images/default-book.png' %}"
+          alt="Default book cover"
+          class="usr-img"
+        />
+        {% endif %}
+      </div>
+      <!-- Like button -->
+      <script>
+        function toggleLike(bookId, btn) {
+          fetch(`/book/${bookId}/like/`, {
+            method: "POST",
+            headers: {
+              "X-CSRFToken": "{{ csrf_token }}",
+              Accept: "application/json",
+              "X-Requested-With": "XMLHttpRequest",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              btn.innerHTML = `❤️ Like ${data.likes_count}`;
+            })
+            .catch((error) => console.error("Error:", error));
+        }
+      </script>
+
+      <div class="like-section">
+        <form method="post" action="{% url 'book_like' book.pk %}">
+          {% csrf_token %}
+          <button
+            type="button"
+            class="btn like-btn"
+            onclick="toggleLike({{ book.pk }}, this)"
+          >
+            ❤️ Like {{ book.likes.count }}
+          </button>
+        </form>
+      </div>
+
+      <div class="book-content">
+        <h2 class="book-title">{{ book.title }}</h2>
+        <h3 class="book-author">by {{ book.author }}</h3>
+        <p class="book-description">{{ book.description|truncatechars:150 }}</p>
+
+        <!-- Review form -->
+        <script>
+          function submitReview(event, bookId) {
+            event.preventDefault();
+            const form = document.getElementById(`review-form-${bookId}`);
+            const textarea = form.querySelector("textarea");
+            fetch(`/book/${bookId}/review/`, {
+              method: "POST",
+              headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                Accept: "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: new URLSearchParams({
+                review: textarea.value,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.error) {
+                  alert(data.error);
+                } else {
+                  const reviewsList = document.getElementById(
+                    `reviews-list-${bookId}`
+                  );
+                  const newReview = document.createElement("div");
+                  newReview.classList.add("review");
+                  newReview.innerHTML = `<strong>${data.username}:</strong> ${data.text}`;
+                  reviewsList.prepend(newReview);
+                  textarea.value = "";
+                }
+              })
+              .catch((error) => console.error("Error:", error));
+          }
+        </script>
+        <div class="review-section">
+          <form method="post" action="{% url 'book_list' %}">
+            {% csrf_token %}
+            <textarea
+              name="review"
+              rows="2"
+              placeholder="Leave a review..."
+              required
+            ></textarea>
+            <button type="submit" class="btn submit">Post Review</button>
+          </form>
+
+          <!-- Show existing reviews -->
+          <div id="reviews-list-{{ book.pk }}">
+            {% for review in book.reviews.all %}
+            <div class="review">
+              <strong>{{ review.user.username }}:</strong> {{ review.content }}
+            </div>
+            {% empty %}
+            <p>No reviews yet.</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="book-actions">
+          <a href="{% url 'book_update' book.pk %}" class="btn">Edit</a>
+          <a href="{% url 'book_delete' book.pk %}" class="btn danger"
+            >Delete</a
+          >
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+      <p>No books available.</p>
+      <a href="{% url 'book_create' %}" class="btn submit">Add First Book</a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="add-new-container">
+    <a href="{% url 'book_create' %}" class="btn submit">+ Add New Book</a>
+  </div>
+</div>
+{% endblock %}

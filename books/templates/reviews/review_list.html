@@ -1,0 +1,13 @@
+<!-- templates/books/review_list.html -->
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <h1>All Reviews</h1>
+  <ul>
+    {% for review in object_list %}
+      <li>{{ review.title }} - {{ review.content }}</li>
+    {% empty %}
+      <li>No reviews yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

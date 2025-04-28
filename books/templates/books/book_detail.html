@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/books/book-detail.css' %}" />
+{% endblock %}
+{% block content %}
+  <h2>{{ object.title }}</h2>
+  <p><strong>Author:</strong> {{ object.author }}</p>
+  <p>{{ object.description }}</p>
+
+  <a href="{% url 'book_update' object.id %}">Edit</a> |
+  <a href="{% url 'book_delete' object.id %}">Delete</a>
+  <br><a href="{% url 'book_list' %}">Back to list</a>
+
+ <!-- Like Button -->
+<form method="post" action="{% url 'book_like' book.pk %}">
+    {% csrf_token %}
+    <button type="submit">
+      {% if user in book.likes.all %}
+        Unlike
+      {% else %}
+        Like
+      {% endif %}
+    </button>
+  </form>
+  <p>{{ book.likes.count }} likes</p>
+  
+  <!-- Review Form -->
+  {% if user.is_authenticated %}
+    <form method="post" action="{% url 'book_review' book.pk %}">
+      {% csrf_token %}
+      <textarea name="content" required></textarea>
+      <button type="submit">Submit Review</button>
+    </form>
+  {% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to leave a review.</p>
+  {% endif %}
+  
+  <!-- Display Reviews -->
+  <h2>Reviews</h2>
+  {% for review in book.reviews.all %}
+    <div>
+      <strong>{{ review.reviewer.username }}</strong> - {{ review.created_at }}
+      <p>{{ review.content }}</p>
+    </div>
+  {% empty %}
+    <p>No reviews yet.</p>
+  {% endfor %}
+  
+{% endblock %}
