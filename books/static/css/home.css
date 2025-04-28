@@ -77,35 +77,30 @@ body {
     left: 30%;
     background: linear-gradient(145deg, #e74c3c, #c0392b);
     animation-delay: 0s;
-    data-title: "Fiction";
 }
 
 .book-2 {
     left: 45%;
     background: linear-gradient(145deg, #2ecc71, #27ae60);
     animation-delay: 1s;
-    data-title: "Science";
 }
 
 .book-3 {
     left: 60%;
     background: linear-gradient(145deg, #f39c12, #e67e22);
     animation-delay: 1.5s;
-    data-title: "History";
 }
 
 .book-4 {
     left: 15%;
     background: linear-gradient(145deg, #9b59b6, #8e44ad);
     animation-delay: 0.5s;
-    data-title: "Art";
 }
 
 .book-5 {
     left: 75%;
     background: linear-gradient(145deg, #3498db, #2980b9);
     animation-delay: 2s;
-    data-title: "Travel";
 }
 
 @keyframes float {
